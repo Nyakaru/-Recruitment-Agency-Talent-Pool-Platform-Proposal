@@ -1908,5 +1908,3 @@ Application deadline: [Date]
 | **Performance** | <5s page load, 50 users | <3s page load, 1000+ users |
 
 ---
-
-**End of Workflows Documentation**
