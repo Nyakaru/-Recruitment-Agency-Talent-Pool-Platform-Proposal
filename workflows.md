@@ -147,13 +147,34 @@ This workflow describes the complete journey of a candidate from discovering a j
 - Email address
 - Phone number (with country code selector)
 - Current location (City, Country)
+- Nationality (dropdown - for compliance tracking)
+- Date of birth (for right-to-work age verification)
 
 **Optional Fields**:
 - LinkedIn profile URL
 
+**Right-to-Work Information (Phase 0 - Basic):**
+- Work authorization status (dropdown):
+  - UK Citizen
+  - Indefinite Leave to Remain (ILR)
+  - Visa Holder (Requires Sponsorship)
+  - Need Sponsorship
+
+**Phase 1 Additional Right-to-Work Fields:**
+- Visa type (if applicable - Health & Care Worker, Skilled Worker, etc.)
+- Visa number
+- Visa start date
+- Visa expiry date
+- Passport number
+- BRP number (if applicable)
+- Share code for right-to-work verification
+
 **User Actions**:
 - Fill in text fields
+- Select nationality from dropdown
 - Select country code from dropdown
+- Choose work authorization status
+- If visa holder: enter visa details (Phase 1)
 - Click "Next" to proceed to Step 2
 - Click "Back" to return to job details (with confirmation if form has data)
 
@@ -213,6 +234,17 @@ This workflow describes the complete journey of a candidate from discovering a j
 **Optional Fields**:
 - Professional certifications/licenses (text area)
 - Areas of expertise/specialization (text area)
+
+**Care Sector Specific Fields (Phase 0):**
+- DBS status (dropdown):
+  - Enhanced DBS - Valid
+  - Enhanced DBS - Pending
+  - Enhanced DBS - Expired
+  - Not Yet Obtained
+- DBS certificate number (if available)
+- DBS issue date (if available)
+- Driving license status (Yes/No)
+- Driving license type (if applicable - Manual/Automatic)
 
 **Work History Section** (Phase 0: Simplified / Phase 1: Detailed):
 
@@ -286,16 +318,43 @@ This workflow describes the complete journey of a candidate from discovering a j
 **Required Documents**:
 - Resume/CV (mandatory)
 
+**Required for Sponsored Roles (Phase 0 - Basic / Phase 1 - Enhanced)**:
+
+**Phase 0:**
+- Right-to-work document (Passport OR BRP/Visa)
+- DBS certificate (for care roles)
+
+**Phase 1:**
+- Right-to-work evidence:
+  - Passport (photo and details pages)
+  - BRP front and back (if applicable)
+  - Current visa page (if applicable)
+  - Share code screenshot (if applicable)
+
 **Optional Documents**:
 - Cover letter
-- Certifications
+- Professional certifications
+- Driving license
 - Portfolio/work samples
 - References
 
 **File Requirements**:
-- Accepted formats: PDF, DOC, DOCX (Phase 1: JPG, PNG for certifications)
+- Accepted formats:
+  - Phase 0: PDF, DOC, DOCX
+  - Phase 1: PDF, DOC, DOCX, JPG, PNG
 - Maximum file size: 10MB per file
-- Maximum 5 documents total
+- Maximum 8 documents total (increased for compliance docs)
+
+**Document Categorization (Phase 0):**
+When uploading, users select document type:
+- CV/Resume
+- Right-to-Work Evidence
+- DBS Certificate
+- Driving License
+- Professional Certification
+- Cover Letter
+- References
+- Other
 
 **User Actions**:
 - Click "Upload" button or drag-and-drop files
@@ -1857,6 +1916,419 @@ Application deadline: [Date]
 - Adjust requirements or salary
 - Share more widely
 - Consider if role is still needed
+
+---
+
+## 4. Compliance & Workforce Management Workflows (Phase 1 & 2)
+
+### Overview
+These workflows describe how recruitment agency staff manage sponsor licence compliance obligations, track visa expiries, and maintain audit-ready documentation.
+
+---
+
+### 4.1 Visa Expiry Monitoring Flow (Phase 1 & 2)
+
+**Step 1: Accessing Visa Dashboard**
+
+**Entry Point**: Staff clicks "Compliance" or "Visa Tracking" in navigation menu
+
+**Visa Dashboard Display (Phase 1 - Basic):**
+
+**Summary Cards:**
+- Total Sponsored Workers
+- Visas Expiring Within 30 Days (red alert)
+- Visas Expiring 30-60 Days (amber warning)
+- Visas Expiring 60-90 Days (yellow notice)
+- Right-to-Work Checks Due
+
+**Workers List:**
+- Table showing all workers with visa information:
+  - Name
+  - Nationality
+  - Visa Type
+  - Visa Expiry Date
+  - Days Until Expiry
+  - Status Badge (color-coded)
+  - Quick Actions
+
+**Filter Options:**
+- Expiry date range
+- Visa type
+- Status (expiring soon, valid, expired)
+- Department/location
+
+**User Actions:**
+- View all sponsored workers
+- Filter by expiry timeline
+- Click on worker to view details
+- Export expiry report
+- Set up automated reminders
+
+**System Behavior:**
+- Load all workers with visa status
+- Calculate days until expiry
+- Apply color coding:
+  - Green: > 90 days
+  - Yellow: 60-90 days
+  - Amber: 30-60 days
+  - Red: < 30 days
+  - Gray: Expired
+- Sort by expiry date (soonest first)
+
+---
+
+### 4.2 Automated Reminder System (Phase 2)
+
+**Step 2: Setting Up Expiry Alerts**
+
+**Trigger**: Automated daily check at 9 AM
+
+**System Process:**
+1. Query database for all visa expiry dates
+2. Check dates against reminder thresholds (90, 60, 30 days)
+3. Identify workers requiring reminders
+4. Generate reminder notifications
+5. Send emails to assigned staff members
+6. Update dashboard alert counts
+
+**Email Reminder Template (90 Days):**
+```
+Subject: Visa Renewal Reminder - [Worker Name] - 90 Days
+
+Dear [Staff Name],
+
+This is a reminder that [Worker Name]'s visa is due to expire in 90 days.
+
+Visa Details:
+- Type: [Visa Type]
+- Expiry Date: [Date]
+- Days Remaining: 90
+
+Action Required:
+- Contact worker to initiate renewal process
+- Prepare required documentation
+- Update sponsor management system
+
+View full details: [Link to worker profile]
+```
+
+**Escalation Process:**
+- 90 days: First reminder (informational)
+- 60 days: Second reminder (action needed)
+- 30 days: Urgent reminder (immediate action required)
+- 14 days: Daily reminders until resolved
+- Expiry date: Alert to compliance officer
+
+---
+
+### 4.3 Right-to-Work Document Management Flow (Phase 1 & 2)
+
+**Step 3: Uploading and Verifying Compliance Documents**
+
+**Entry Point**: Staff opens employee/candidate profile → Documents tab
+
+**Documents Section Display:**
+
+**Categories:**
+- Right-to-Work Evidence
+  - Passport (photo page, visa page)
+  - BRP (front and back)
+  - Share code verification
+- DBS Certificates
+- Employment Contracts
+- Training Certifications
+- Other Compliance Documents
+
+**For Each Document:**
+- Document name
+- Category
+- Upload date (timestamped)
+- Uploaded by (staff member)
+- Expiry date (if applicable)
+- Status (valid, expiring soon, expired)
+- Version history
+- View/Download actions
+
+**User Actions - Upload Process:**
+1. Click "Upload Document" button
+2. Select document category from dropdown
+3. Choose file from system
+4. Add document details:
+   - Document type (Passport, BRP, DBS, etc.)
+   - Issue date
+   - Expiry date (if applicable)
+   - Reference number
+   - Notes (optional)
+5. Click "Upload and Save"
+
+**System Behavior:**
+- Validate file type and size
+- Store in secure, encrypted storage
+- Create timestamped record
+- Link to employee profile
+- Add to audit trail
+- If expiry date entered: Add to reminder system
+- Generate document verification checklist
+
+**Phase 2 Enhancement - Share Code Verification:**
+1. Staff enters candidate's share code
+2. System connects to UKVI API (or manual verification)
+3. Retrieves right-to-work status
+4. Displays verification result
+5. Stores verification record with timestamp
+6. Auto-fills visa details if available
+
+---
+
+### 4.4 Reportable Events Tracking Flow (Phase 2)
+
+**Step 4: Managing UKVI Reportable Events**
+
+**Reportable Events (Per UKVI Guidance):**
+- Unauthorized absences (10+ consecutive days)
+- Role or salary changes
+- Early termination of employment
+- Work location changes
+- Resignation or dismissal
+
+**Trigger Points:**
+1. Staff marks employee as "Absent" for 10+ days
+2. Staff updates employee role or salary
+3. Staff changes employment status to "Terminated"
+4. Staff updates work location
+
+**System Behavior - Event Detection:**
+- Monitor employee records for reportable changes
+- Trigger alert when reportable event occurs
+- Create draft UKVI notification
+- Notify compliance officer
+- Track reporting deadline (varies by event type)
+
+**Reporting Workflow:**
+
+**Step 1: Event Detected**
+- System identifies reportable event
+- Creates alert in dashboard
+- Sends notification to compliance officer
+
+**Step 2: Review Event**
+- Staff reviews event details
+- Confirms accuracy
+- Adds any additional context/notes
+
+**Step 3: Generate Report Template**
+- System pre-fills UKVI report template with:
+  - Worker details (name, CoS number, nationality)
+  - Event type and date
+  - Current status
+  - Supporting information
+- Staff reviews and edits if needed
+
+**Step 4: Export for Submission**
+- Download pre-filled template
+- Submit to UKVI via Sponsor Management System
+- Record submission date in platform
+- Mark event as "Reported"
+
+**Step 5: Audit Trail**
+- System logs:
+  - Event occurrence date
+  - Detection date
+  - Report generation date
+  - Submission date
+  - Staff member who handled
+  - Supporting documentation
+
+---
+
+### 4.5 Appendix D Audit Pack Generation Flow (Phase 2)
+
+**Step 5: Creating Compliance Audit Pack**
+
+**Entry Point**: Staff clicks "Generate Audit Pack" from:
+- Compliance dashboard
+- Individual employee profile
+- Bulk selection from employee list
+
+**Audit Pack Options Modal:**
+
+**Select Scope:**
+- Single employee
+- Multiple selected employees
+- All employees
+- Date range filter
+- Department/location filter
+
+**Select Documents to Include:**
+- Job advertisements
+- Application forms
+- Interview notes
+- Right-to-work evidence
+- Employment contracts
+- Pay records/payslips
+- Training certificates
+- Attendance records
+- Performance reviews
+
+**Output Format:**
+- Combined PDF with table of contents
+- Separate PDFs in organized folders
+- Excel spreadsheet with summary data
+
+**User Actions:**
+1. Select audit pack scope
+2. Choose documents to include
+3. Select output format
+4. Click "Generate Audit Pack"
+5. Wait for processing (progress bar shown)
+6. Download generated pack
+
+**System Behavior - Generation Process:**
+
+**Phase 2 Implementation:**
+1. Validate user has permission to export
+2. Show progress modal: "Generating audit pack..."
+3. For each selected employee:
+   - Retrieve job posting for their application
+   - Fetch application form data
+   - Compile right-to-work documents
+   - Include employment contract
+   - Gather pay verification records
+   - Include relevant training certs
+4. Organize into folder structure:
+   ```
+   Audit_Pack_[Date]/
+   ├── 00_Summary.pdf (index and overview)
+   ├── Employee_1_[Name]/
+   │   ├── 01_Job_Advertisement.pdf
+   │   ├── 02_Application_Form.pdf
+   │   ├── 03_Right_to_Work_Evidence.pdf
+   │   ├── 04_Employment_Contract.pdf
+   │   ├── 05_Pay_Records.pdf
+   │   └── 06_Training_Certificates.pdf
+   ├── Employee_2_[Name]/
+   │   └── ...
+   ```
+5. Generate summary PDF with:
+   - Table of contents
+   - Employee index
+   - Compliance checklist
+   - Date range covered
+6. Create ZIP file
+7. Auto-download or email link if large file
+
+**Success State:**
+- Audit pack generated successfully
+- All requested documents included
+- Organized for easy navigation
+- Show message: "Audit pack generated. [X] employees, [Y] documents included."
+
+---
+
+### 4.6 DBS Renewal Tracking Flow (Phase 1 & 2)
+
+**Step 6: Managing DBS Certificate Renewals**
+
+**DBS Renewal Cycle**: Typically every 3 years for care sector workers
+
+**Dashboard View:**
+- DBS status summary cards:
+  - Valid DBS Certificates
+  - Expiring Within 3 Months
+  - Expiring Within 6 Months
+  - Expired/Pending Renewal
+  - Never Obtained
+
+**Employee DBS Status:**
+- Certificate number
+- Issue date
+- Expiry date (calculated: issue date + 3 years)
+- Status badge
+- Document link
+- Renewal reminder status
+
+**Automated Renewal Process:**
+
+**6 Months Before Expiry:**
+- Send reminder to employee
+- Email: "DBS renewal required in 6 months"
+- Add task to staff dashboard
+
+**3 Months Before Expiry:**
+- Escalated reminder
+- Notify line manager
+- Flag on employee profile (amber)
+
+**1 Month Before Expiry:**
+- Urgent reminder
+- Daily notifications
+- Flag on employee profile (red)
+- Restrict shift assignments (optional Phase 3)
+
+**On Expiry:**
+- Mark certificate as expired
+- Alert compliance officer
+- Require immediate action before further work
+
+**User Actions - Renewal Process:**
+1. Staff receives renewal reminder
+2. Contact employee to initiate DBS renewal
+3. Employee submits new DBS application
+4. Update status to "Renewal Pending"
+5. Once received, upload new certificate
+6. System updates expiry date
+7. Marks renewal complete
+
+---
+
+### 4.7 Compliance Health Dashboard (Phase 2)
+
+**Step 7: Monitoring Overall Compliance Status**
+
+**Compliance Dashboard Display:**
+
+**Overall Compliance Score:**
+- Percentage-based score (0-100%)
+- Color-coded indicator (green/amber/red)
+- Trend graph (improving/declining)
+
+**Compliance Metrics:**
+- Right-to-Work Compliance: [%]
+  - All workers have valid right-to-work evidence
+  - Documents verified and up-to-date
+- DBS Compliance: [%]
+  - All care workers have valid DBS
+  - No expired certificates
+- Visa Compliance: [%]
+  - All visas tracked
+  - No expired visas
+  - Timely renewals
+- Reportable Events Compliance: [%]
+  - All events reported within deadlines
+  - Proper documentation maintained
+- Audit Readiness: [%]
+  - Complete documentation for all workers
+  - Recruitment evidence maintained
+
+**Alerts & Action Items:**
+- Priority list of compliance issues
+- Upcoming deadlines
+- Overdue actions
+- Recommended next steps
+
+**Recent Activity:**
+- Document uploads
+- Visa renewals
+- DBS updates
+- Reportable events
+- Audit pack generations
+
+**User Actions:**
+- Monitor compliance health
+- Drill down into specific metrics
+- View action items
+- Export compliance reports
+- Schedule compliance reviews
 
 ---
 

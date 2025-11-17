@@ -667,3 +667,293 @@ flowchart TD
 ```
 
 ---
+
+## 4. Compliance & Workforce Management Flows (Phase 1 & 2)
+
+### 4.1 Visa Expiry Monitoring Flow
+
+```mermaid
+flowchart TD
+    Start([Staff Accesses Compliance Dashboard]) --> LoadDash[Load Visa Dashboard]
+    LoadDash --> QueryDB[Query All Workers with Visas]
+
+    QueryDB --> Calculate[Calculate Days Until Expiry]
+    Calculate --> ApplyColor[Apply Color Coding]
+
+    ApplyColor --> DisplayCards[Display Summary Cards]
+    DisplayCards --> ShowCounts{Show Counts}
+
+    ShowCounts --> Red[Red: < 30 Days]
+    ShowCounts --> Amber[Amber: 30-60 Days]
+    ShowCounts --> Yellow[Yellow: 60-90 Days]
+    ShowCounts --> Green[Green: > 90 Days]
+
+    Red --> WorkersList[Display Workers Table]
+    Amber --> WorkersList
+    Yellow --> WorkersList
+    Green --> WorkersList
+
+    WorkersList --> UserAction{User Action?}
+
+    UserAction --> Filter[Apply Filters]
+    Filter --> UpdateList[Update Worker List]
+    UpdateList --> WorkersList
+
+    UserAction --> ViewWorker[Click on Worker]
+    ViewWorker --> WorkerProfile[Open Worker Profile]
+    WorkerProfile --> ViewDocs[View Compliance Documents]
+    ViewDocs --> CheckVisa{Visa Status?}
+
+    CheckVisa --> Expiring[Expiring Soon]
+    Expiring --> SendReminder[Send Renewal Reminder]
+    SendReminder --> LogAction[Log Reminder Sent]
+
+    CheckVisa --> Valid[Valid - No Action]
+    Valid --> End([Dashboard Updated])
+
+    CheckVisa --> Expired[Already Expired]
+    Expired --> AlertOfficer[Alert Compliance Officer]
+    AlertOfficer --> UrgentAction[Mark for Urgent Action]
+    UrgentAction --> End
+
+    UserAction --> ExportReport[Export Expiry Report]
+    ExportReport --> GenerateCSV[Generate CSV/Excel]
+    GenerateCSV --> Download[Auto-Download Report]
+    Download --> End
+
+    LogAction --> End
+
+    style Start fill:#e1f5e1
+    style End fill:#90EE90
+    style Red fill:#FFB6C1
+    style Amber fill:#FFE4B5
+    style Yellow fill:#FFFACD
+    style Green fill:#90EE90
+    style Expired fill:#FF0000,color:#FFF
+    style AlertOfficer fill:#FFB6C1
+```
+
+### 4.2 Automated Reminder System Flow (Phase 2)
+
+```mermaid
+flowchart TD
+    Start([Daily Cron Job 9 AM]) --> QueryVisas[Query All Visa Expiry Dates]
+    QueryVisas --> CheckThresholds{Check Against Thresholds}
+
+    CheckThresholds --> Check90[90 Days Until Expiry?]
+    Check90 --> |Yes| Generate90[Generate 90-Day Reminder]
+    Generate90 --> Send90[Send Email to Staff]
+    Send90 --> Log90[Log Reminder]
+
+    CheckThresholds --> Check60[60 Days Until Expiry?]
+    Check60 --> |Yes| Generate60[Generate 60-Day Reminder]
+    Generate60 --> Send60[Send Email + Dashboard Alert]
+    Send60 --> Log60[Log Reminder]
+
+    CheckThresholds --> Check30[30 Days Until Expiry?]
+    Check30 --> |Yes| Generate30[Generate 30-Day URGENT Reminder]
+    Generate30 --> Send30[Email + SMS + Dashboard Alert]
+    Send30 --> Log30[Log Reminder]
+
+    CheckThresholds --> Check14[14 Days Until Expiry?]
+    Check14 --> |Yes| GenerateDaily[Generate Daily Reminder]
+    GenerateDaily --> SendDaily[Daily Emails Until Resolved]
+    SendDaily --> Escalate[Escalate to Manager]
+    Escalate --> LogDaily[Log Escalation]
+
+    CheckThresholds --> CheckExpired[Expiry Date Reached?]
+    CheckExpired --> |Yes| MarkExpired[Mark Visa as Expired]
+    MarkExpired --> AlertCompliance[Alert Compliance Officer]
+    AlertCompliance --> CreateTask[Create Urgent Action Task]
+    CreateTask --> LogExpired[Log Expiry Event]
+
+    Check90 --> |No| NextWorker
+    Check60 --> |No| NextWorker
+    Check30 --> |No| NextWorker
+    Check14 --> |No| NextWorker
+    CheckExpired --> |No| NextWorker
+
+    NextWorker{More Workers?} --> |Yes| QueryVisas
+    NextWorker --> |No| UpdateDash[Update Dashboard Counts]
+
+    Log90 --> UpdateDash
+    Log60 --> UpdateDash
+    Log30 --> UpdateDash
+    LogDaily --> UpdateDash
+    LogExpired --> UpdateDash
+
+    UpdateDash --> End([Reminders Complete])
+
+    style Start fill:#e1f5e1
+    style End fill:#90EE90
+    style Generate30 fill:#FFB6C1
+    style GenerateDaily fill:#FF0000,color:#FFF
+    style MarkExpired fill:#FF0000,color:#FFF
+    style AlertCompliance fill:#FFB6C1
+```
+
+### 4.3 Right-to-Work Document Upload Flow (Phase 1 & 2)
+
+```mermaid
+flowchart TD
+    Start([Staff Opens Employee Profile]) --> NavDocs[Navigate to Documents Tab]
+    NavDocs --> ViewExisting[View Existing Documents]
+
+    ViewExisting --> Action{User Action?}
+
+    Action --> ClickUpload[Click Upload Document]
+    ClickUpload --> SelectCategory[Select Document Category]
+
+    SelectCategory --> CategoryType{Category Type?}
+    CategoryType --> RTW[Right-to-Work Evidence]
+    CategoryType --> DBS[DBS Certificate]
+    CategoryType --> Contract[Employment Contract]
+    CategoryType --> Training[Training Certificate]
+
+    RTW --> SelectRTWType{Document Type?}
+    SelectRTWType --> Passport[Passport]
+    SelectRTWType --> BRP[BRP Card]
+    SelectRTWType --> ShareCode[Share Code Verification]
+
+    Passport --> ChooseFile[Choose File from System]
+    BRP --> ChooseFile
+
+    ShareCode --> Phase2Check{Phase 2?}
+    Phase2Check --> |Yes| EnterCode[Enter Share Code]
+    EnterCode --> VerifyAPI[Connect to UKVI API]
+    VerifyAPI --> APIResult{Verification Result?}
+    APIResult --> |Success| AutoFill[Auto-fill Visa Details]
+    APIResult --> |Failed| ManualEntry[Manual Entry Required]
+    AutoFill --> SaveVerification
+    ManualEntry --> SaveVerification[Save Verification Record]
+
+    Phase2Check --> |No| ChooseFile
+
+    DBS --> ChooseFile
+    Contract --> ChooseFile
+    Training --> ChooseFile
+
+    ChooseFile --> ValidateFile{File Valid?}
+    ValidateFile --> |No| ShowError[Error: Invalid File Type/Size]
+    ShowError --> ClickUpload
+
+    ValidateFile --> |Yes| AddDetails[Add Document Details Form]
+    AddDetails --> FillDetails[Fill in Details]
+
+    FillDetails --> DetailsForm[Document Details Form]
+    DetailsForm --> IssueDate[Issue Date]
+    DetailsForm --> ExpiryDate[Expiry Date if applicable]
+    DetailsForm --> RefNumber[Reference Number]
+    DetailsForm --> Notes[Notes optional]
+
+    IssueDate --> ClickSave[Click Upload and Save]
+    ClickSave --> ProcessUpload[Process Upload]
+
+    ProcessUpload --> EncryptStore[Encrypt and Store Securely]
+    EncryptStore --> CreateRecord[Create Database Record]
+    CreateRecord --> Timestamp[Add Timestamp]
+    Timestamp --> LinkProfile[Link to Employee Profile]
+    LinkProfile --> AuditTrail[Add to Audit Trail]
+
+    AuditTrail --> HasExpiry{Has Expiry Date?}
+    HasExpiry --> |Yes| AddToReminder[Add to Reminder System]
+    HasExpiry --> |No| SkipReminder[Skip Reminder]
+
+    AddToReminder --> GenerateChecklist
+    SkipReminder --> GenerateChecklist[Generate Document Verification Checklist]
+    SaveVerification --> GenerateChecklist
+
+    GenerateChecklist --> ShowSuccess[Show: Document Uploaded Successfully]
+    ShowSuccess --> UpdateDocsList[Update Documents List]
+    UpdateDocsList --> End([Upload Complete])
+
+    Action --> ViewDoc[View Existing Document]
+    ViewDoc --> Download[Download Document]
+    Download --> End
+
+    Action --> CheckVersion[Check Version History]
+    CheckVersion --> ShowVersions[Display Document Versions]
+    ShowVersions --> End
+
+    style Start fill:#e1f5e1
+    style End fill:#90EE90
+    style ShowSuccess fill:#90EE90
+    style ShowError fill:#FFB6C1
+    style VerifyAPI fill:#ADD8E6
+    style AutoFill fill:#90EE90
+```
+
+### 4.4 Reportable Events Tracking Flow (Phase 2)
+
+```mermaid
+flowchart TD
+    Start([System Monitors Employee Records]) --> DetectChange{Change Detected?}
+
+    DetectChange --> Absence[Employee Absent 10+ Days]
+    DetectChange --> RoleSalary[Role/Salary Change]
+    DetectChange --> Termination[Employment Terminated]
+    DetectChange --> Location[Work Location Changed]
+
+    Absence --> TriggerAlert[Trigger Reportable Event Alert]
+    RoleSalary --> TriggerAlert
+    Termination --> TriggerAlert
+    Location --> TriggerAlert
+
+    TriggerAlert --> CreateDraft[Create Draft UKVI Report]
+    CreateDraft --> NotifyOfficer[Notify Compliance Officer]
+    NotifyOfficer --> DashAlert[Add Alert to Dashboard]
+
+    DashAlert --> StaffReview[Staff Reviews Event]
+    StaffReview --> ConfirmAccuracy{Accurate?}
+
+    ConfirmAccuracy --> |No| EditDetails[Edit Event Details]
+    EditDetails --> StaffReview
+
+    ConfirmAccuracy --> |Yes| AddContext[Add Additional Context/Notes]
+    AddContext --> GenerateTemplate[Generate UKVI Report Template]
+
+    GenerateTemplate --> PreFill[Pre-fill Template with Data]
+    PreFill --> WorkerDetails[Worker Details: Name, CoS, Nationality]
+    WorkerDetails --> EventDetails[Event Type and Date]
+    EventDetails --> StatusInfo[Current Status]
+    StatusInfo --> SupportingInfo[Supporting Information]
+
+    SupportingInfo --> StaffReviewTemplate[Staff Reviews Template]
+    StaffReviewTemplate --> NeedEdit{Needs Editing?}
+
+    NeedEdit --> |Yes| EditTemplate[Edit Template Content]
+    EditTemplate --> StaffReviewTemplate
+
+    NeedEdit --> |No| ExportTemplate[Export for Submission]
+    ExportTemplate --> DownloadPDF[Download Pre-filled PDF]
+    DownloadPDF --> ManualSubmit[Staff Submits to UKVI SMS]
+
+    ManualSubmit --> RecordSubmission[Record Submission Date in Platform]
+    RecordSubmission --> MarkReported[Mark Event as Reported]
+
+    MarkReported --> LogAudit[Create Audit Trail Entry]
+    LogAudit --> LogDetails[Log All Event Details]
+
+    LogDetails --> AuditEntries[Audit Trail Contains]
+    AuditEntries --> OccurrenceDate[Event Occurrence Date]
+    AuditEntries --> DetectionDate[Detection Date]
+    AuditEntries --> ReportGenDate[Report Generation Date]
+    AuditEntries --> SubmissionDate[Submission Date]
+    AuditEntries --> HandlerName[Staff Member Who Handled]
+    AuditEntries --> SupportingDocs[Supporting Documentation Links]
+
+    OccurrenceDate --> UpdateCompliance[Update Compliance Dashboard]
+    UpdateCompliance --> RemoveAlert[Remove from Active Alerts]
+    RemoveAlert --> End([Event Reported])
+
+    DetectChange --> |No Change| Continue[Continue Monitoring]
+    Continue --> Start
+
+    style Start fill:#e1f5e1
+    style End fill:#90EE90
+    style TriggerAlert fill:#FFB6C1
+    style NotifyOfficer fill:#FFE4B5
+    style MarkReported fill:#90EE90
+```
+
+---

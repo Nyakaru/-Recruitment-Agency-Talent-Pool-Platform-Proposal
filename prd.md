@@ -17,11 +17,15 @@ This document outlines the requirements for a web-based recruitment platform des
 
 ### 1.2 Product Vision
 
-Create an efficient, user-friendly platform that enables recruitment agencies to:
+Create an efficient, user-friendly platform that enables recruitment agencies, specifically sponsor-licensed care providers, to:
 
 - Post and manage job opportunities
-- Build and maintain a pool of eligible candidates
+- Build and maintain a pool of eligible candidates (both migrant and settled workers)
 - Streamline candidate screening through standardized profile generation
+- Manage UKVI sponsor licence compliance obligations
+- Track employee right-to-work status and visa expiries
+- Maintain compliance document repositories
+- Generate audit-ready reporting for sponsor duties
 
 ### 1.3 Delivery Strategy and Timeline Approach
 
@@ -50,26 +54,40 @@ This approach enables:
 
 ### 2.1 Target Users
 
-1. **Primary Users (Recruitment Agency Staff)**  
-     
-   - Post job listings  
-   - Review candidate profiles  
-   - Manage candidate pool  
+1. **Primary Users (Sponsor-Licensed Care Provider Staff)**
+
+   - Post job listings
+   - Review candidate profiles
+   - Manage candidate pool
    - Screen applications efficiently
+   - Track sponsor licence compliance
+   - Monitor visa and right-to-work status
+   - Generate compliance reports
+   - Manage employee records
 
-   
 
-2. **Secondary Users (Job Candidates)**  
-     
-   - Browse available positions  
-   - Submit applications  
-   - Upload required documents  
+
+2. **Secondary Users (Job Candidates - Migrant & Settled Workers)**
+
+   - Browse available positions
+   - Submit applications
+   - Upload required documents (including right-to-work evidence)
    - Create professional profiles
+   - Track visa status and expiry dates (migrant workers)
 
 ### 2.2 Core Value Proposition
 
-- **For Agencies**: Simplified candidate screening with standardized one-page profiles  
-- **For Candidates**: Streamlined application process with reusable profile information
+- **For Sponsor-Licensed Care Providers**:
+  - Simplified candidate screening with standardized one-page profiles
+  - UKVI sponsor licence compliance management in one platform
+  - Automated tracking of visa expiries and right-to-work status
+  - Audit-ready document repository and reporting
+  - Reduced risk of sponsor licence violations
+
+- **For Candidates (Migrant & Settled Workers)**:
+  - Streamlined application process with reusable profile information
+  - Clear visibility of visa requirements and status
+  - Centralized document management
 
 ---
 
@@ -117,23 +135,35 @@ This approach enables:
 
 - Multi-step application form including:  
     
-  **Personal Information:**  
-    
-  - Full name  
-  - Email address  
-  - Phone number  
-  - Current location  
+  **Personal Information:**
+
+  - Full name
+  - Email address
+  - Phone number
+  - Current location
+  - Nationality
+  - Date of birth
   - LinkedIn profile (optional)
+
+
+  **Right-to-Work Information:**
+
+  - Work authorization status (UK Citizen, ILR, Visa Holder, Need Sponsorship)
+  - Visa type (if applicable)
+  - Visa start and expiry dates (if applicable)
+  - Share code for right-to-work verification (Phase 1)
+  - Passport/BRP details (Phase 1)
 
 
   **Professional Information:**
 
 
-  - Current job title  
-  - Years of experience  
-  - Education level and institution  
-  - Professional certifications/licenses  
-  - Areas of expertise/specialization  
+  - Current job title
+  - Years of experience
+  - Education level and institution
+  - Professional certifications/licenses (including DBS status for care sector)
+  - Driving license status (for care roles requiring travel)
+  - Areas of expertise/specialization
   - Key skills (taggable/searchable)
 
 
@@ -155,12 +185,17 @@ This approach enables:
 
 **Requirements:**
 
-- Upload multiple documents:  
-  - Resume/CV (required) \- PDF, DOC, DOCX  
-  - Cover letter (optional) \- PDF, DOC, DOCX  
-  - Certifications (optional) \- PDF, JPG, PNG  
-  - References (optional) \- PDF, DOC, DOCX  
-  - Portfolio/work samples (optional) \- PDF, DOC, DOCX  
+- Upload multiple documents:
+  - Resume/CV (required) - PDF, DOC, DOCX
+  - Right-to-work evidence (required for applicable roles):
+    - Passport (PDF, JPG, PNG)
+    - BRP/Visa documents (PDF, JPG, PNG)
+    - Share code verification (Phase 1)
+  - DBS certificate (required for care roles) - PDF, JPG, PNG
+  - Driving license (if required) - PDF, JPG, PNG
+  - Professional certifications (optional) - PDF, JPG, PNG
+  - Cover letter (optional) - PDF, DOC, DOCX
+  - References (optional) - PDF, DOC, DOCX  
 - File size limit: 10MB per file  
 - Maximum 5 documents per application  
 - Drag-and-drop upload interface  
@@ -184,17 +219,21 @@ This approach enables:
 
 **Requirements:**
 
-- Auto-generate a standardized one-page profile containing:  
-  - Candidate photo placeholder/initials  
-  - Full name and contact information  
-  - Professional headline (current role)  
-  - Years of experience  
-  - Education summary  
-  - Top 5-6 key skills  
-  - Brief work history (last 2-3 positions)  
-  - Certifications/licenses  
-  - Availability and location  
-  - Links to uploaded documents
+- Auto-generate a standardized one-page profile containing:
+  - Candidate photo placeholder/initials
+  - Full name and contact information
+  - Nationality and location
+  - Visa status and expiry date (if applicable) - highlighted if expiring soon
+  - Professional headline (current role)
+  - Years of experience
+  - Education summary
+  - Top 5-6 key skills
+  - Brief work history (last 2-3 positions)
+  - Certifications/licenses
+  - DBS status (expiry date highlighted if applicable)
+  - Driving license status (if applicable)
+  - Availability and location
+  - Links to uploaded documents (including compliance docs)
 
 #### 3.3.2 Profile Design
 
@@ -251,9 +290,101 @@ This approach enables:
 - Bulk export selected candidate profiles  
 - Generate comparison reports for shortlisted candidates
 
-### 3.5 Authentication & Authorization
+### 3.5 Compliance & Workforce Management
 
-#### 3.5.1 Agency Portal Access
+#### 3.5.1 Compliance Document Repository (Phase 1 & 2)
+
+**Requirements:**
+
+- Secure, timestamped storage for compliance documents:
+  - Right-to-work checks (passports, BRPs, share codes)
+  - DBS certificates
+  - Employment contracts
+  - Training records and certifications
+- Document expiry tracking with automated alerts
+- Version control for updated documents
+- Audit trail of document access and modifications
+- Bulk document upload capability
+- Document categorization and tagging
+
+#### 3.5.2 Visa & Right-to-Work Tracking (Phase 1 & 2)
+
+**Requirements:**
+
+- Monitor visa start/expiry dates for all sponsored workers
+- Automated renewal reminders (30, 60, 90 days before expiry)
+- Dashboard view of all visa statuses
+- Color-coded alerts for expiring visas (green, amber, red)
+- Right-to-work re-check scheduling
+- Share code verification integration (Phase 2)
+- Certificate of Sponsorship (CoS) tracking
+- UKVI reporting event triggers
+
+#### 3.5.3 Sponsor Dashboard (Phase 2)
+
+**Requirements:**
+
+- Overview of all sponsored workers
+- CoS allocations and usage tracking
+- Visa expiry calendar view
+- Compliance health indicators
+- Reportable events tracking:
+  - Non-attendance alerts
+  - Role/salary changes
+  - Early termination notifications
+  - Work location updates
+- Quick access to UKVI submission templates
+
+#### 3.5.4 Employee Management Tools (Phase 1 & 2)
+
+**Requirements:**
+
+- Unified employee dashboard per worker:
+  - Attendance and shift history
+  - Visa status summary
+  - Training renewal dates
+  - Performance metrics (Phase 2)
+- Automated renewal reminders for:
+  - DBS checks (3-year cycle typical)
+  - Visa/right-to-work documents
+  - Mandatory training certifications
+- Employee reliability metrics (Phase 2):
+  - Punctuality tracking
+  - Attendance rates
+  - Shift fulfillment rates
+
+#### 3.5.5 Appendix D Audit Pack Generator (Phase 2)
+
+**Requirements:**
+
+- One-click export of audit-ready documentation:
+  - Job advertisements and recruitment evidence
+  - Application forms and interview notes
+  - Employment contracts
+  - Right-to-work evidence with verification dates
+  - Pay details and salary verification
+  - Training and qualification records
+- Organized folder structure for UKVI compliance
+- PDF compilation with index and table of contents
+- Filtering by date range or specific employees
+- Anonymization options for data protection
+
+#### 3.5.6 Recruitment Evidence Logging (Phase 1 & 2)
+
+**Requirements:**
+
+- Automated capture of recruitment activity:
+  - Job advert publication dates and platforms
+  - Application receipts and timestamps
+  - Interview scheduling and outcomes
+  - Selection decision documentation
+- Genuine recruitment requirement tracking
+- Labor market test evidence (historical data)
+- Recruitment timeline visualization
+
+### 3.6 Authentication & Authorization
+
+#### 3.6.1 Agency Portal Access
 
 **Requirements:**
 
@@ -265,7 +396,7 @@ This approach enables:
 - Password reset functionality  
 - Two-factor authentication (optional)
 
-#### 3.5.2 Candidate Access
+#### 3.6.2 Candidate Access
 
 **Requirements:**
 
@@ -514,27 +645,45 @@ The delivery structure has been reframed into a phased approach that prioritizes
 - Demonstrate platform value through working end-to-end workflows
 - Enable investor interaction with functional prototype
 - Validate core user experience and product concept
+- Showcase compliance-focused differentiation for care sector
 - Gather stakeholder feedback for refinement
 
 **Scope:**
+
+**Core Recruitment Features:**
 - Basic job posting creation and display
-- Candidate application form (essential fields only)
+- Candidate application form with essential fields:
+  - Personal information
+  - Basic right-to-work status (dropdown selection)
+  - Nationality field
+  - Professional information
+  - Work history
 - Document upload (CV/Resume required)
 - One-page profile generation (standardized template)
 - Simple candidate list view in agency portal
 - Basic authentication for agency staff
 - Minimal but functional UI/UX
 
+**Initial Compliance Data Capture (Demo-Ready):**
+- Nationality and visa status fields in application form
+- Right-to-work status selector (UK Citizen, ILR, Visa Holder, Need Sponsorship)
+- DBS status field (Yes/No/Pending)
+- Driving license field (Yes/No)
+- Visual indicators on one-page profile for compliance status
+- Basic document categorization (CV, Right-to-Work, DBS, Certifications)
+
 **Success Metrics:**
 - Complete job-to-application-to-profile workflow operational
+- Compliance fields visible in demo presentations
 - Demo-ready environment deployed and accessible
-- Positive investor feedback on concept and usability
+- Positive investor feedback on concept and compliance focus
 - No critical bugs during presentation scenarios
 
 **Deliverables:**
-- Working demo environment with sample data
+- Working demo environment with sample data (including migrant workers)
 - High-level flow diagrams and user journey visualizations
 - Brief feature prioritization matrix
+- Compliance roadmap visualization for investor pitches
 - Weekly progress demonstrations
 
 ### Phase 1: Extended MVP (Production-Ready Build)
@@ -544,10 +693,13 @@ The delivery structure has been reframed into a phased approach that prioritizes
 **Objectives:**
 - Enhance demo features for real-world usage
 - Add operational functionality for agency staff
+- Implement essential compliance tracking features
 - Improve user experience and interface polish
-- Prepare for early adopter onboarding
+- Prepare for early adopter onboarding (sponsor-licensed care providers)
 
 **Scope:**
+
+**Enhanced Recruitment Features:**
 - Advanced job posting management (edit, duplicate, archive)
 - Enhanced application form with full field set
 - Document management (multiple file types, preview)
@@ -558,22 +710,80 @@ The delivery structure has been reframed into a phased approach that prioritizes
 - Email notifications (application confirmation, new candidate alerts)
 - Improved UI/UX with responsive design
 
+**Compliance & Workforce Management (Essential Features):**
+- Detailed right-to-work information capture:
+  - Visa type and number
+  - Visa start and expiry dates
+  - Passport/BRP details
+  - Share code entry field
+- Compliance document repository:
+  - Secure storage for right-to-work documents
+  - DBS certificate storage with expiry dates
+  - Document version control
+  - Timestamped upload tracking
+- Basic visa expiry tracking:
+  - Dashboard view of visa expiry dates
+  - Color-coded status indicators (green/amber/red)
+  - Simple expiry alerts (30-day warning)
+- Employee profile enhancements:
+  - Unified employee view with compliance summary
+  - DBS renewal date tracking
+  - Document access history
+- Recruitment evidence capture:
+  - Automatic logging of job posting dates
+  - Application timestamp tracking
+  - Interview outcome recording
+
 **Success Metrics:**
 - Platform ready for pilot users or early adopters
+- Compliance features functional for basic sponsor duties
 - Key workflows tested and validated through UAT
 - Performance meets demo MVP targets
+- Visa tracking accurate for test dataset
 - Technical handover documentation complete
 
-### Phase 2: Enhanced Features
+### Phase 2: Enhanced Features (Comprehensive Compliance)
 
 **Timeline: 4-6 weeks**
 
 **Objectives:**
 - Scale platform for broader usage
+- Implement full sponsor licence compliance management
 - Add analytics and reporting capabilities
 - Optimize performance for production targets
 
 **Scope:**
+
+**Advanced Compliance & Sponsor Management:**
+- Sponsor Dashboard:
+  - Overview of all sponsored workers
+  - Certificate of Sponsorship (CoS) tracking
+  - Visa expiry calendar view
+  - Compliance health score/indicators
+- Advanced visa & right-to-work tracking:
+  - Automated renewal reminders (30, 60, 90 days)
+  - Email/SMS notifications for expiring documents
+  - Share code verification integration
+  - Right-to-work re-check scheduling
+- Reportable events tracking & alerts:
+  - Non-attendance monitoring
+  - Role/salary change notifications
+  - Early termination alerts
+  - Work location update tracking
+  - Pre-filled UKVI submission templates
+- Appendix D Audit Pack Generator:
+  - One-click export of compliance documentation
+  - Organized folder structure
+  - Job adverts, applications, contracts bundle
+  - Right-to-work evidence compilation
+  - Pay verification documentation
+- Employee management tools:
+  - Attendance and shift history tracking
+  - Performance metrics (punctuality, reliability)
+  - Training certification management
+  - Automated training renewal reminders
+
+**Platform Enhancements:**
 - Analytics dashboard with key metrics
 - Advanced candidate comparison and reporting
 - Candidate portal with login (optional profile updates)
@@ -581,18 +791,57 @@ The delivery structure has been reframed into a phased approach that prioritizes
 - Enhanced search with keyword indexing
 - Performance optimizations (caching, database indexing)
 - Security hardening and compliance review
+- GDPR compliance tools (data export, deletion)
 
-### Phase 3: Optimization and Integration
+### Phase 3: Optimization and Bank Staff Module
 
 **Timeline: 4-6 weeks**
 
+**Objectives:**
+- Extend platform to bank staff and shift management
+- Enable third-party integrations
+- Add advanced analytics and business intelligence
+
 **Scope:**
+
+**Bank Staff & Shift Management:**
+- Real-time shift posting and matching:
+  - Urgent shift posting interface
+  - Instant candidate matching based on skills, location, availability
+  - Push notifications for suitable shifts
+- Candidate availability management:
+  - Bank-shift toggle for candidates
+  - Availability calendar
+  - Preference settings (location, shift types)
+- Accept/Decline workflow:
+  - Shift offer system
+  - Acceptance confirmation
+  - Live fill-rate tracking
+- Attendance & timesheet capture:
+  - Digital check-in/check-out
+  - GPS verification (optional)
+  - Integration with payroll systems
+  - Compliance log integration
+- Two-way rating & feedback system:
+  - Agency rates candidate (reliability, punctuality, professionalism)
+  - Candidate rates agency (communication, organization, work environment)
+  - Feedback analytics and reputation scores
+  - Matching algorithm improvements based on ratings
+
+**Platform Integrations & Optimization:**
 - API for third-party integrations
 - Advanced reporting and data export options
 - Calendar integration for interview scheduling
 - Mobile-responsive optimizations
 - ATS export formats
 - Mobile app (optional)
+- Training marketplace integration (partnership with accredited providers)
+
+**Commercial Model Implementation:**
+- Tiered subscription plans (Basic, Professional, Enterprise)
+- Transactional fees for placements and bank shifts
+- Compliance add-on modules (pay-per-use or subscription)
+- Data insights reports for enterprise clients
 
 ---
 
